@@ -1,0 +1,30 @@
+personal-information:
+    path:     /
+    defaults: { _controller: "AgileTrainingBundle:PersonalInformation:index" }
+
+personal-information_show:
+    path:     /{id}/show
+    defaults: { _controller: "AgileTrainingBundle:PersonalInformation:show" }
+
+personal-information_new:
+    path:     /new
+    defaults: { _controller: "AgileTrainingBundle:PersonalInformation:new" }
+
+personal-information_create:
+    path:     /create
+    defaults: { _controller: "AgileTrainingBundle:PersonalInformation:create" }
+    requirements: { _method: post }
+
+personal-information_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AgileTrainingBundle:PersonalInformation:edit" }
+
+personal-information_update:
+    path:     /{id}/update
+    defaults: { _controller: "AgileTrainingBundle:PersonalInformation:update" }
+    requirements: { _method: post|put }
+
+personal-information_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AgileTrainingBundle:PersonalInformation:delete" }
+    requirements: { _method: post|delete }

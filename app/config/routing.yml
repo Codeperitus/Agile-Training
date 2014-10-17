@@ -1,0 +1,4 @@
+agile_training:
+    resource: "@AgileTrainingBundle/Resources/config/routing.yml"
+    prefix:   /
+

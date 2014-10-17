@@ -1,0 +1,7 @@
+agile_training_personal-information:
+    resource: "@AgileTrainingBundle/Resources/config/routing/personalinformation.yml"
+    prefix:   /personal-information
+
+agile_training_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: AgileTrainingBundle:Default:index }

@@ -1,0 +1,5 @@
+_assetic:
+    resource: .
+    type: assetic
+_app:
+    resource: /home/jaskamal/public_html/agile-training/path/app/config/routing_dev.yml

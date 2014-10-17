@@ -1,0 +1,130 @@
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+	<div class="alert alert-danger alert-white rounded">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		<div class="icon"><i class="fa fa-times-circle"></i></div>
+		<strong>Error!</strong> {% for error in errors %}{{ error.message }}<br />{% endfor %}
+	 </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}
+
+<label class="col-sm-3 control-label">Published</label>
+
+{% block form_row %}
+    {% spaceless %}
+	<div class="form-group">
+	    {{ form_errors(form) }}
+	    {{ form_label(form) }}------
+	    {{ form_widget(form) }}--------
+	</div>
+    {% endspaceless %}
+{% endblock form_row %}
+
+{% block form_label %}
+{% spaceless %}
+    {% if label is not sameas(false) %}
+        {% if not compound %}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {% endif %}
+        {% if required %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {% endif %}
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+        <label class="col-sm-3 control-label"{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}:</label>
+    {% endif %}
+{% endspaceless %}
+{% endblock form_label %}
+
+{% block form_widget_simple %}
+{% spaceless %}
+    {% set type = type|default('text') %}
+        {% set attr = attr|merge({'class': (attr.class|default('') ~ ' form-control')|trim}) %}
+    <div class="col-sm-6">
+         <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    </div>
+{% endspaceless %}
+{% endblock form_widget_simple %}
+
+{% block textarea_widget %}
+{% spaceless %}
+<div class="form-group">
+    <div class="col-sm-6">
+      {% set attr = attr|merge({'class': (attr.class|default('') ~ ' form-control')|trim}) %}
+      <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+    </div>
+</div>
+{% endspaceless %}
+{% endblock textarea_widget %}
+
+{% block choice_widget_collapsed %}
+{% spaceless %}
+    {% if required and empty_value is none and not empty_value_in_choices %}
+        {% set required = false %}
+    {% endif %}
+    <div class="col-sm-6">
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' form-control')|trim}) %}
+    <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %} data-rel="chosen">
+        {% if empty_value is not none %}
+            <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ empty_value|trans({}, translation_domain) }}</option>
+        {% endif %}
+        {% if preferred_choices|length > 0 %}
+            {% set options = preferred_choices %}
+            {{ block('choice_widget_options') }}
+            {% if choices|length > 0 and separator is not none %}
+                <option disabled="disabled">{{ separator }}</option>
+            {% endif %}
+        {% endif %}
+        {% set options = choices %}
+        {{ block('choice_widget_options') }}
+    </select>
+    </div>
+{% endspaceless %}
+{% endblock choice_widget_collapsed %}
+
+{% block calandar_widget %}
+    {% spaceless %}
+	{% set type = type|default('text') %}
+	{% set attr = attr|merge({'class': (attr.class|default('') ~ ' form-control')|trim}) %}
+	{%set defaultClass = "" %}
+	{%- for attrname, attrvalue in attr -%}
+	    {%if attrname == 'class' %}
+		    {%set defaultClass = attrvalue %}
+	    {%endif%}
+	{%- endfor -%}
+	
+	{%set value  = value|date("m/d/Y g:ia") %}
+	
+	{%set dateTimeArray =  value|split(' ') %}
+	<div id="datetimecal">
+	
+		<div>
+			<input class="datePicker" type="{{ type }}"  {% if value is not empty %}value="{{ value }}" {% endif %} {{ block('widget_datetime_attributes') }} >
+		</div>
+	</div>
+    {% endspaceless %}
+{% endblock calandar_widget %}
+
+{% block widget_datetime_attributes %}
+{% spaceless %}
+    id="{{ id }}" name="{{ full_name }}"
+    {%- if read_only %} readonly="readonly"{% endif -%}
+    {%- if disabled %} disabled="disabled"{% endif -%}
+    {%- if required %} required="required"{% endif -%}
+    {%- for attrname, attrvalue in attr -%}
+        {{- " " -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ attrvalue|trans({}, translation_domain) }}"
+	{%elseif attrname == 'class' %}
+	
+        {%- elseif attrvalue is sameas(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not sameas(false) -%}
+            {{- attrname }}="{{ attrvalue }}"
+        {%- endif -%}
+    {%- endfor -%}
+{% endspaceless %}
+{% endblock widget_datetime_attributes %}

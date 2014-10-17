@@ -1,0 +1,25 @@
+Agile\TrainingBundle\Entity\PersonalInformation:
+    type: entity
+    table: null
+    repositoryClass: Agile\TrainingBundle\Entity\PersonalInformationRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        address:
+            type: text
+        city:
+            type: string
+            length: 255
+        state:
+            type: string
+            length: 255
+        dob:
+            type: datetimetz
+    lifecycleCallbacks: {  }

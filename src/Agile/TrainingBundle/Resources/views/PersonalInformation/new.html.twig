@@ -1,0 +1,18 @@
+{% extends '::base.html.twig' %}
+{% form_theme form 'AgileTrainingBundle:form:formTheme.html.twig' %}
+
+{% block body -%}
+
+    
+    <h1>PersonalInformation creation</h1>
+
+    {{ form(form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('personal-information') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}
